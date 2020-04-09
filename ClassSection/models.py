@@ -44,7 +44,7 @@ class Classes(SafeDeleteModel):
 
     class_id = models.AutoField(primary_key=True)
     class_code = models.CharField(max_length=100)
-    class_name = models.CharField(min_length=100)
+    class_name = models.CharField(max_length=100)
     # is_delete = models.PositiveSmallIntegerField(default=0)
     created_at = models.DateTimeField(default=now)
 
@@ -67,7 +67,7 @@ class Section(SafeDeleteModel):
     section_id = models.AutoField(primary_key=True)
     section_code = models.CharField(max_length=100)
     section_name = models.CharField(max_length=100)
-    class = models.ForeignKey(Classes, on_detete=models.CASCADE)
+    classes = models.ForeignKey(Classes, on_delete=models.CASCADE, related_name="sections")
     # is_delete = models.PositiveSmallIntegerField(default=0)
     created_at = models.DateTimeField(default=now)
 
