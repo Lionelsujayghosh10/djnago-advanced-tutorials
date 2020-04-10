@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1></h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Result</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-12">
+          {% if error %}
+                <div class="alert alert-danger">
+                    <i class="fa fa-check-circle fa-fw fa-lg"></i>
+                    <strong>{{ error }}</strong>
+                </div>
+              {% endif %}
+              {% if success %}
+                <div class="alert alert-success">
+                    <i class="fa fa-check-circle fa-fw fa-lg"></i>
+                    <strong>{{ success }}</strong>
+                </div>
+              {% endif %}
+            <!-- general form elements -->
+            <div class="card ccard-info">
+              <div class="card-header">
+                <h3 class="card-title">Create Section</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" method="post" enctype="multipart/form-data">
+                <div class="card-body">
+                     <div class="form-group">
+                        <label for="exampleInputEmail1">Class </label>
+                        <select name="class_id" class="form-control class_selection" id="class_id">
+                            <option value="">Select an class</option>
+                                {% for single_class in class_list %}
+                                  <option value="{{ single_class.class_id }}" >{{ single_class.class_name }}</option>
+                                {% endfor %}
+                        </select>
+                    </div> 
+                    <span style="color:red;">{{ form_details.errors.class_id }}</span>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Section Code </label>
+                        <input type="text" name="section_code"  class="form-control" placeholder="Enter Section Code"  autocomplete="off" value="{{ form_details.data.section_code }}">
+                    </div>
+                    <span style="color:red;">{{ form_details.errors.section_code }}</span>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Section Name</label>
+                        <input type="text" name="section_name"  class="form-control" placeholder="Enter Section name" autocomplete="off" value="{{ form_details.data.section_name }}">
+                    </div>
+                    <span style="color:red;">{{ form_details.errors.section_name }}</span>
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                {% csrf_token %}
+                  <input type="submit" class="btn btn-primary" name="Create" value="Create" >
+                </div>
+              </form>
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+
+
+
+{% endblock %}

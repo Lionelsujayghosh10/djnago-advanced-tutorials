@@ -45,7 +45,7 @@
         <a href="" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="" class="nav-link">Logout</a>
+        <a href="{% url 'user_logout' %}" class="nav-link">Logout</a>
         
       </li>
     </ul>
@@ -109,13 +109,13 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="javascript:void(0);" class="nav-link">
+                <a href="{% url 'create_section' %}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Create Section</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="" class="nav-link ">
+                <a href="{% url 'list_section' %}" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>List Section</p>
                 </a>

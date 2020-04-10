@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, JsonResponse
-from .form import CreateClassForm
-from .models import Classes
+from django.http import HttpResponse, JsonResponse, Http404
+from .form import CreateClassForm, CreateSectionForm
+from .models import Classes, Section
 from django.core.paginator import Paginator
 
 # Create your views here.
@@ -41,7 +41,9 @@ def list_class(request):
         class_details = paginator.get_page(page)
         return render(request, 'classlist.html', {'class_list': class_details})
     except Exception as e:
-        return render(request, 'createclass.html', { 'error' : e})
+        return render(request, 'classlist.html', { 'error' : e})
+    except ValueError:
+        raise Http404
 
 
 
@@ -77,3 +79,37 @@ def delete_class(request):
             'error' : 'Unexcepted error ocurred.'
         }
         return JsonResponse(data)
+
+
+@login_required
+def create_section(request):
+    try:
+        class_list = Classes.objects.all()
+        if request.method == 'POST':
+            create_section_form = CreateSectionForm(request.POST.dict())
+            if create_section_form.is_valid():
+                #todo : option tag selected in template
+                create_section = Section.objects.create(section_code=create_section_form.cleaned_data['section_code'], section_name=create_section_form.cleaned_data['section_name'], classes_id=create_section_form.cleaned_data['class_id'])
+                return render(request, 'createsection.html', {'class_list':class_list, 'success' : 'section_created successfully done.'})
+            else:
+                return render(request, 'createsection.html', {'class_list':class_list, 'form_details' : create_section_form})
+        else:
+            return render(request, 'createsection.html', {'class_list':class_list})
+    except Exception as e:
+        class_list = Classes.objects.all()
+        return render(request, 'createsection.html', { 'error' : e, 'class_list':class_list})
+
+
+
+@login_required
+def list_section(request):
+    try:
+        section_list = Section.objects.select_related('classes').all()
+        paginator = Paginator(section_list, 10)
+        page = request.GET.get('page')
+        section_details = paginator.get_page(page)
+        return render(request, 'sectionlist.html', {'section_list': section_details})
+    except Exception as e:
+        return render(request, 'classlist.html', { 'error' : e})
+    except ValueError:
+        raise Http404
