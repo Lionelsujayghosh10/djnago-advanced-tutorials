@@ -11,5 +11,7 @@ urlpatterns = [
     path('listclass', views.list_class, name="list_class"),
     path('deleteclass', views.delete_class, name="delete_class"),
     path('createsection', views.create_section, name="create_section"),
-    path('listsection', views.list_section, name="list_section")
+    path('listsection', views.list_section, name="list_section"),
+    path('deletesection', views.delete_section, name="delete_section"),
+    path('sectionlist', views.section_list, name="section_list")
 ]

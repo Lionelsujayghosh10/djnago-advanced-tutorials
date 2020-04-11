@@ -124,15 +124,15 @@
     <script>
         $(document.body).on('click', '.deleteButton', function(){
             let class_id = $(this).attr('id');
-            swal({
-            title: 'Do you  want to delete it?',
-            text: "Section of this class will be automitacally delete.",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
+          swal({
+              title: 'Do you  want to delete it?',
+              text: "Section of this class will be automitacally delete.",
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
             if (result.value) {
                 $.ajax({
                     url : '{% url "delete_class" %}',
@@ -160,7 +160,7 @@
                     }
                 });
             }
-        }); 
+          }); 
         });
     </script>
 

@@ -3,10 +3,9 @@ from django.http import HttpResponse, JsonResponse, Http404
 from .form import CreateClassForm, CreateSectionForm
 from .models import Classes, Section
 from django.core.paginator import Paginator
-
-# Create your views here.
-
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
 
 
 
@@ -113,3 +112,73 @@ def list_section(request):
         return render(request, 'classlist.html', { 'error' : e})
     except ValueError:
         raise Http404
+
+
+
+@login_required
+def delete_section(request):
+    try:
+        if request.method == 'POST':
+            if request.POST.get('section_id') is not None:
+                try:
+                    section_exists = Section.objects.get(pk=request.POST.get('section_id'))
+                    section_exists.delete()
+                    data = {
+                        'success' : 'successfully done.'
+                    }
+                    return JsonResponse(data)
+                except ObjectDoesNotExist:
+                    data = {
+                        'error' : 'Invalid  section id.'
+                    }
+                    return JsonResponse(data)
+            else:
+                data = {
+                    'error' : 'section Id required.'
+                }
+                return JsonResponse(data)
+        else:
+            data = {
+                'error' : 'Unexcepted error ocurred.'
+            }
+            return JsonResponse(data)
+    except Exception as e:
+        data = {
+            'error' : 'Unexcepted error ocurred.'
+        }
+        return JsonResponse(data)
+
+
+
+@login_required
+@csrf_exempt
+#error ache
+def section_list(request):
+    try:
+        if request.method == 'POST':
+            if request.POST.get('class_id') is not None:
+                try:
+                    section_list = Section.objects.filter(classes_id=request.POST.get('class_id'))
+                    return JsonResponse(serializers.serialize('json', list(section_list), fields=['section_name', 'section_id', 'section_code']))
+                except ObjectDoesNotExist:
+                    data = {
+                        'error' : 'Invalid class id.'
+                    }
+                    return JsonResponse(data)
+            else:
+                data = {
+                    'error' : 'Class Id required.'
+                }
+                return JsonResponse(data)
+        else:
+            data = {
+                'error' : 'Unexcepted error ocurred.'
+            }
+            return JsonResponse(data)
+    except Exception as e:
+        data = {
+            'e' : e,
+            'error' : 'Unexcepted error ocurred.'
+        }
+        return JsonResponse(data)
+
