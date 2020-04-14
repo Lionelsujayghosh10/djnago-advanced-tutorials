@@ -1,6 +1,7 @@
 from django import forms 
 from django.core.exceptions import ValidationError
 from .models import Subject, AssignSubject
+from django.core.exceptions import ValidationError
 
 
 
@@ -36,3 +37,14 @@ class CreateSubjectForm(forms.Form):
                 self.add_error('subject_name', 'Subject name is required.')
         except Exception as e:
             self.add_error('subject_name', 'Something went wrong!')
+
+
+
+
+class AssignSubjectForm(forms.Form):
+
+
+    class_id = forms.IntegerField()
+    section_id = forms.CharField(required = False)
+    subject_id = forms.IntegerField()
+    section_status = forms.BooleanField(required = False)

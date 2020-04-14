@@ -159,7 +159,9 @@ def section_list(request):
             if request.POST.get('class_id') is not None:
                 try:
                     section_list = Section.objects.filter(classes_id=request.POST.get('class_id'))
-                    return JsonResponse(serializers.serialize('json', list(section_list), fields=['section_name', 'section_id', 'section_code']))
+                    data = serializers.serialize("json", section_list, fields=['section_name', 'section_id', 'section_code'])
+                    # return JsonResponse(serializers.serialize('json', list(section_list), fields=['section_name', 'section_id', 'section_code']))
+                    return HttpResponse(data, content_type='application/json')
                 except ObjectDoesNotExist:
                     data = {
                         'error' : 'Invalid class id.'
