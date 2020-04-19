@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1></h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Result</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-12">
+            {% if error %}
+                <div class="alert alert-danger">
+                    <i class="fa fa-check-circle fa-fw fa-lg"></i>
+                    <strong>{{ error }}</strong>
+                </div>
+            {% endif %}
+            {% if success %}
+                <div class="alert alert-success">
+                    <i class="fa fa-check-circle fa-fw fa-lg"></i>
+                    <strong>{{ success }}</strong>
+                </div>
+            {% endif %}
+            <!-- general form elements -->
+            <div class="card ccard-info">
+              <div class="card-header">
+                <h3 class="card-title">Create Subject</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" method="post" enctype="multipart/form-data">
+                <div class="card-body">
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Student Code </label>
+                        <input type="text" name="student_code"  class="form-control" placeholder="Enter Student Code" autocomplete="off" value="{{ form_details.data.student_code }}">
+                    </div>
+                    <span style="color:red;">{{ form_details.errors.student_code }}</span>
+
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Student Name </label>
+                        <input type="text" name="student_name"  class="form-control" placeholder="Enter Student Name" autocomplete="off" value="{{ form_details.data.student_name }}">
+                    </div>
+                    <span style="color:red;">{{ form_details.errors.student_name }}</span>
+
+
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Class </label>
+                        <select name="class_id" class="form-control classselection"  id="class_id">
+                            <option value="">Select an class</option>
+                                {% for single_class in class_list %}
+                                    <option value="{{  single_class.class_id }}" data-classId="{{ single_class.class_id }}">{{ single_class.class_name }}</option>
+                                {% endfor %}
+                        </select>
+                    </div>
+                    <span style="color:red;">{{ form_details.errors.class_id }}</span>
+                    
+
+
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Section </label>
+                        <select name="section_id" class="form-control" id="section_selection">
+                            <option value="">Select an class first</option>
+                        </select>
+                        <div class="sectionError"></div>
+                    </div>
+                    <span style="color:red;">{{ form_details.errors.section_id }}</span>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Roll number </label>
+                        <input type="text" name="roll_number"  class="form-control" placeholder="Enter Roll Number" autocomplete="off" value="{{ form_details.data.roll_number }}">
+                    </div>
+                    <span style="color:red;">{{ form_details.errors.roll_number }}</span>
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Student Image</label>
+                        <input type="file" name="student_image" value="{{ form_details.data.student_image }}">
+                    </div>
+                    <span style="color:red;">{{ form_details.errors.student_image }}</span>
+
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-primary" name="Create" value="Create" >
+                </div>
+              </form>
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+{% block javascript %}
+
+    <script>
+      $(document.body).on('change', '.classselection', function(){
+        let class_id  = $('.classselection').children("option:selected").attr('data-classId');
+        $.ajax({
+          url     : '{% url "section_list" %}',
+          type    : 'POST',
+          data    : {class_id : class_id},
+          success : function(data){
+            if(data.length > 0) {
+              let output = '';
+              output  +=   '<option>Select Section</option>';
+              for(let i = 0; i < data.length; i++) {
+                output += '<option value="'+data[i].pk+'">'+data[i].fields.section_name+'</option>';
+              }
+              $('#section_selection').html(output);
+            } else {
+              let output ='<option> <font color="red"> No Section Found under this class!</font></option>';
+              $('#section_selection').html(output);
+            }
+          }
+        });
+      });
+    </script>
+
+
+{% endblock %}

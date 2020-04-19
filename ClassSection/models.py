@@ -68,7 +68,6 @@ class Section(SafeDeleteModel):
     section_code = models.CharField(max_length=100)
     section_name = models.CharField(max_length=100)
     classes = models.ForeignKey(Classes, on_delete=models.CASCADE, related_name="sections")
-    # is_delete = models.PositiveSmallIntegerField(default=0)
     created_at = models.DateTimeField(default=now)
 
 
