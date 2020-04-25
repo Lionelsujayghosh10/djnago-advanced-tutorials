@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1></h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Parent</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <!-- left column -->
+          <div class="col-md-12">
+            {% if error %}
+                <div class="alert alert-danger">
+                    <i class="fa fa-check-circle fa-fw fa-lg"></i>
+                    <strong>{{ error }}</strong>
+                </div>
+            {% endif %}
+            {% if success %}
+                <div class="alert alert-success">
+                    <i class="fa fa-check-circle fa-fw fa-lg"></i>
+                    <strong>{{ success }}</strong>
+                </div>
+            {% endif %}
+            <!-- general form elements -->
+            <div class="card ccard-info">
+              <div class="card-header">
+                <h3 class="card-title">Create Parent</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form role="form" method="post" enctype="multipart/form-data">
+                <div class="card-body">
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Parent Code </label>
+                        <input type="text" name="parent_code"  class="form-control" placeholder="Enter Parent Code" autocomplete="off" value="{{ form_details.data.parent_code }}">
+                    </div>
+                    <span style="color:red;">{{ form_details.errors.parent_code }}</span>
+
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Parent Name </label>
+                        <input type="text" name="parent_name"  class="form-control" placeholder="Enter Parent Name" autocomplete="off" value="{{ form_details.data.parent_name }}">
+                    </div>
+                    <span style="color:red;">{{ form_details.errors.parent_name }}</span>
+
+
+
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address(Login credentils) </label>
+                        <input type="email" name="parent_email_address"  class="form-control" placeholder="Enter email address" autocomplete="off" value="{{ form_details.data.parent_email_address }}">
+                    </div>
+                    <span style="color:red;">{{ form_details.errors.parent_email_address }}</span>
+
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">password(Login credentils) </label>
+                        <input type="email" name="password"  class="form-control" placeholder="Enter password" autocomplete="off" value="{{ form_details.data.password }}">
+                    </div>
+                    <span style="color:red;">{{ form_details.errors.password }}</span>
+
+
+
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Student Image</label>
+                        <input type="file" name="parent_image" value="{{ form_details.data.student_image }}">
+                    </div>
+                    <span style="color:red;">{{ form_details.errors.parent_image }}</span>
+
+
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-primary" name="Create" value="Create" >
+                </div>
+              </form>
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+

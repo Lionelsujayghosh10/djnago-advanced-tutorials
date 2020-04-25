@@ -5,7 +5,7 @@ from ClassSection.models import Classes, Section
 from .models import Student
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
-
+from django.core.paginator import Paginator
 
 
 
@@ -36,3 +36,18 @@ def create_student(request):
                 'error' : e
             }
             return render(request, 'student/createstudent.html', send_data)
+
+
+
+@login_required
+def list_student(request):
+    try:
+        student_list = Student.objects.select_related('classes').select_related('section').all()
+        paginator = Paginator(student_list, 10)
+        page = request.GET.get('page')
+        student_list = paginator.get_page(page)
+        return render(request, 'student/studentlist.html', {'student_list': student_list})
+    except Exception as e:
+        return HttpResponse(e)
+    except ValueError:
+        return Http404
