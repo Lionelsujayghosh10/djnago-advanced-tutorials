@@ -1,12 +1,12 @@
 from .models import Users
 import logging
 from django.contrib.auth.hashers import check_password
-from django.contrib.auth.backends import BaseBackend
+# from django.contrib.auth.backends import BaseBackend
 from django.utils.timezone import now
 
 
 #todo: last_login need to update
-class MyAuthBackend(BaseBackend):
+class MyAuthBackend():
     def authenticate(self, email, password): 
         try:
             user = Users.objects.get(email=email,is_delete=0)

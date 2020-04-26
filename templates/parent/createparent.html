@@ -76,14 +76,14 @@
 
                     <div class="form-group">
                         <label for="exampleInputEmail1">password(Login credentils) </label>
-                        <input type="email" name="password"  class="form-control" placeholder="Enter password" autocomplete="off" value="{{ form_details.data.password }}">
+                        <input type="text" name="password"  class="form-control" placeholder="Enter password" autocomplete="off" value="{{ form_details.data.password }}">
                     </div>
                     <span style="color:red;">{{ form_details.errors.password }}</span>
 
 
 
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Student Image</label>
+                        <label for="exampleInputEmail1">Parent Image</label>
                         <input type="file" name="parent_image" value="{{ form_details.data.student_image }}">
                     </div>
                     <span style="color:red;">{{ form_details.errors.parent_image }}</span>

@@ -135,6 +135,7 @@ AUTH_USER_MODEL = 'Registration.Users'
 
 AUTHENTICATION_BACKENDS = ('Registration.backends.MyAuthBackend','django.contrib.auth.backends.ModelBackend',)
 
-
+STUDENT_IMAGE_DIR = os.path.join(STATIC_PATH, 'Images/student')
+PARENT_IMAGE_DIR = os.path.join(STATIC_PATH, 'Images/parent')
 
 LOGIN_URL = '/Login'
